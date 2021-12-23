@@ -22,7 +22,10 @@ namespace ExploreCalifornia
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            //services.AddRazorPages();
+
+            services.AddMvc(options=> options.EnableEndpointRouting=false);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +47,14 @@ namespace ExploreCalifornia
                     throw new Exception("Error");
 
                 await next();
+            });
+
+            app.UseRouting();
+            app.UseMvc(routes =>
+            {
+                
+                routes.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
+
             });
             app.UseFileServer();
             //app.UseStaticFiles();
