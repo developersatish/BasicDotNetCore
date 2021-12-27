@@ -76,7 +76,7 @@ namespace ExploreCalifornia
 
                 await next();
             });
-
+            app.UseAuthentication();
             app.UseRouting();
             app.UseMvc(routes =>
             {
@@ -84,7 +84,7 @@ namespace ExploreCalifornia
                 routes.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
 
             });
-            app.UseAuthentication();
+            
             app.UseFileServer();
             //app.UseStaticFiles();
 

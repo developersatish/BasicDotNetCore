@@ -35,15 +35,28 @@ namespace ExploreCalifornia.Controllers
                 return View();
             }
 
+
+            var user = await _userManager.FindByEmailAsync(login.EmailAddress);
+
+            
+
             var result = await _signInManager.PasswordSignInAsync(
-                login.EmailAddress, login.Password,
-                login.RememberMe, false
+                user.UserName, 
+                login.Password,
+                login.RememberMe, 
+                false
             );
+
+            var isAuth = User.Identity.IsAuthenticated;
 
             if (!result.Succeeded)
             {
                 ModelState.AddModelError("", "Login error!");
                 return View();
+            }
+            else
+            {
+               
             }
 
             if (string.IsNullOrWhiteSpace(returnUrl))
@@ -77,8 +90,10 @@ namespace ExploreCalifornia.Controllers
             var newUser = new IdentityUser
             {
                 Email = registration.EmailAddress,
-                UserName = registration.EmailAddress,
+                UserName = registration.EmailAddress                
             };
+
+            
 
             var result = await _userManager.CreateAsync(newUser, registration.Password);
 
